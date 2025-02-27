@@ -10,7 +10,7 @@ public class Vehicle {
         return vehicleNumber;
     }
 
-    public void setVehicleNumberNumber(String vehicleNumber) {
+    public void setVehicleNumber(String vehicleNumber) {
         this.vehicleNumber = vehicleNumber;
     }
 
