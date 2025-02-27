@@ -1,12 +1,13 @@
 package services;
 
 import exceptions.GateNotFoundException;
-import models.Gate;
-import models.Token;
-import models.Vehicle;
-import models.VehicleType;
+import models.*;
 import repository.GateRepository;
+import repository.ParkingLotRepository;
+import repository.TokenRepository;
 import repository.VehicleRepository;
+import strategies.AllotmentFactory;
+import strategies.AllotmentStrategy;
 
 import java.util.Date;
 import java.util.Optional;
@@ -14,9 +15,14 @@ import java.util.Optional;
 public class TokenServices {
     private GateRepository gateRepository;
     private VehicleRepository vehicleRepository;
-    public TokenServices(GateRepository gateRepository, VehicleRepository vehicleRepository) {
+    private ParkingLotRepository parkingLotRepository;
+    private TokenRepository tokenRepository;
+    public TokenServices(GateRepository gateRepository, VehicleRepository vehicleRepository,
+                          ParkingLotRepository parkingLotRepository, TokenRepository tokenRepository) {
         this.gateRepository = gateRepository;
         this.vehicleRepository = vehicleRepository;
+        this.parkingLotRepository = parkingLotRepository;
+        this.tokenRepository = tokenRepository;
     }
 
 
@@ -44,13 +50,21 @@ public class TokenServices {
             vehicle.setNameOfOwner(nameOfOwner);
             vehicle.setVehicleNumber(vehicleNumber);
 
-            savedVehicle = vehicleRepository.save(Vehicle vehicle);
+            savedVehicle = vehicleRepository.save(vehicle);
         }else{
             savedVehicle = vehicleOptional.get();
         }
         token.setVehicle(savedVehicle);
-        
 
-        return token;
+        ParkingLot parkingLot = parkingLotRepository.getByGate(gate);
+        AllotmentStrategyType allotmentStrategyType = parkingLot.getAllotmentStrategy();
+
+        AllotmentStrategy allotmentStrategy = AllotmentFactory.getStrategyForType(allotmentStrategyType);
+        ParkingSpot parkingSpot = allotmentStrategy.getParkingSpot(vehicleType, parkingLot);
+        token.setAssignedSpot(parkingSpot);
+
+
+
+        return tokenRepository.save(token);
     }
 }

@@ -7,8 +7,8 @@ public class ParkingLot extends BaseModel{
     private List<Gate> gateList;
     private List<VehicleType> allowedVehicleTypeList;
     private ParkingLotStatus status;
-    private AllotmentStrategy allotmentStrategy;
-    private FeeCalStrategy feeCalStrategy;
+    private AllotmentStrategyType allotmentStrategyType;
+    private FeeCalStrategyType feeCalStrategyType;
 
     public List<ParkingFloor> getFloorList() {
         return floorList;
@@ -42,19 +42,19 @@ public class ParkingLot extends BaseModel{
         this.status = status;
     }
 
-    public AllotmentStrategy getAllotmentStrategy() {
-        return allotmentStrategy;
+    public AllotmentStrategyType getAllotmentStrategy() {
+        return allotmentStrategyType;
     }
 
-    public void setAllotmentStrategy(AllotmentStrategy allotmentStrategy) {
-        this.allotmentStrategy = allotmentStrategy;
+    public void setAllotmentStrategy(AllotmentStrategyType allotmentStrategyType) {
+        this.allotmentStrategyType = allotmentStrategyType;
     }
 
-    public FeeCalStrategy getFeeCalStrategy() {
-        return feeCalStrategy;
+    public FeeCalStrategyType getFeeCalStrategy() {
+        return feeCalStrategyType;
     }
 
-    public void setFeeCalStrategy(FeeCalStrategy feeCalStrategy) {
-        this.feeCalStrategy = feeCalStrategy;
+    public void setFeeCalStrategy(FeeCalStrategyType feeCalStrategyType) {
+        this.feeCalStrategyType = feeCalStrategyType;
     }
 }
